@@ -112,6 +112,8 @@ class _AddCardPageState extends State<AddCardPage> {
                         ConnectionState.waiting) {
                       bool isWait = true;
 
+
+
                       Future.delayed(const Duration(seconds: 20)).then((value) {
                         isWait = false;
                       });
