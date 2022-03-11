@@ -130,15 +130,17 @@ class _AddCardPageState extends State<AddCardPage> {
                         ]);
                       }
 
-                      return isWait ? Column(
-                        children: const [
-                          SizedBox(height: 20),
-                          Center(
-                            child: CircularProgressIndicator.adaptive(),
-                          ),
-                          SizedBox(height: 20),
-                        ],
-                      ) : Column(children: list);
+                      return isWait
+                          ? Column(
+                              children: const [
+                                SizedBox(height: 20),
+                                Center(
+                                  child: CircularProgressIndicator.adaptive(),
+                                ),
+                                SizedBox(height: 20),
+                              ],
+                            )
+                          : Column(children: list);
                     } else {
                       return Column(
                         children: [
