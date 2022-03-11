@@ -10,7 +10,7 @@ class HiveDB {
     box.put("cards", list);
   }
 
-  static Future<List<CCard>> loadData() async {
+  static List<CCard> loadData() {
     List<Map<String, dynamic>> list = box.get("cards") ?? [];
     List<CCard> cards = list.map((e) => CCard.fromJson(e)).toList();
     return cards;

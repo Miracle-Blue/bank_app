@@ -83,19 +83,62 @@ class _AddCardPageState extends State<AddCardPage> {
                           index++;
                           list.addAll([
                             cardFields(
-                                card: card, index: index % (colors.length - 1)),
+                              card: card,
+                              index: index % (colors.length - 1),
+                            ),
                             const SizedBox(height: 20),
                           ]);
                         }
                         return Column(children: list);
                       } else if (snapshot.hasError) {
-                        return const SizedBox.shrink();
+                        List<CCard> cards = HiveDB.loadData();
+                        List<Widget> list = [];
+                        int index = 0;
+                        for (var card in cards) {
+                          index++;
+                          list.addAll([
+                            cardFields(
+                              card: card,
+                              index: index % (colors.length - 1),
+                            ),
+                            const SizedBox(height: 20),
+                          ]);
+                        }
+                        return Column(children: list);
                       } else {
                         return const SizedBox.shrink();
                       }
                     } else if (snapshot.connectionState ==
                         ConnectionState.waiting) {
-                      return const SizedBox.shrink();
+                      bool isWait = true;
+
+                      Future.delayed(const Duration(seconds: 20)).then((value) {
+                        isWait = false;
+                      });
+
+                      List<CCard> cards = HiveDB.loadData();
+                      List<Widget> list = [];
+                      int index = 0;
+                      for (var card in cards) {
+                        index++;
+                        list.addAll([
+                          cardFields(
+                            card: card,
+                            index: index % (colors.length - 1),
+                          ),
+                          const SizedBox(height: 20),
+                        ]);
+                      }
+
+                      return isWait ? Column(
+                        children: const [
+                          SizedBox(height: 20),
+                          Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
+                          SizedBox(height: 20),
+                        ],
+                      ) : Column(children: list);
                     } else {
                       return Column(
                         children: [
@@ -131,8 +174,15 @@ class _AddCardPageState extends State<AddCardPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        Icon(Icons.add_box_outlined, size: 60, color: Colors.grey,),
-                        Text("Add new Card", style: TextStyle(fontSize: 22, color: Colors.grey),),
+                        Icon(
+                          Icons.add_box_outlined,
+                          size: 60,
+                          color: Colors.grey,
+                        ),
+                        Text(
+                          "Add new Card",
+                          style: TextStyle(fontSize: 22, color: Colors.grey),
+                        ),
                       ],
                     ),
                   ),
